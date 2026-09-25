@@ -1,0 +1,1164 @@
+/* =============================================================
+   High Stakes Initiatives — shared stylesheet
+   1. Tokens
+   2. Base & typography
+   3. Layout utilities
+   4. Components (top bar, header, buttons, eyebrow, forms, footer)
+   5. Page sections
+   ============================================================= */
+
+
+/* 1. Tokens
+   ------------------------------------------------------------- */
+
+:root {
+  /* Color */
+  --black: #000000;
+  --eggplant-deep: #1a0542;
+  --eggplant: #2c0a71;
+  --eggplant-hover: #3f217e;
+  --violet: #7b4fbf;
+  --lavender-100: #edeaf3;
+  --lavender-200: #e4e0ed;
+  --panel: #f7f9fb;
+  --ink: #1a1a1a;
+  --ink-muted: #575757;
+  --rule: #e2e2e2;
+  --on-dark: #ffffff;
+  --on-dark-muted: #d5d1dc;
+  --white: #ffffff;
+
+  /* Type families */
+  --serif: Lora, Georgia, "Times New Roman", serif;
+  --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Type scale — fluid between 360px and 1440px */
+  --fs-h1: clamp(2.25rem, 1.75rem + 2.222vw, 3.75rem);
+  --fs-h2: clamp(1.75rem, 1.5rem + 1.111vw, 2.5rem);
+  --fs-h3: clamp(1.2rem, 1.15rem + 0.222vw, 1.35rem);
+  --fs-lead: clamp(1.4rem, 1.25rem + 0.667vw, 1.85rem);
+  --fs-body: clamp(1.0625rem, 1.0417rem + 0.093vw, 1.125rem);
+  --fs-small: 0.875rem;
+  --fs-eyebrow: clamp(0.75rem, 0.7292rem + 0.093vw, 0.8125rem);
+  --fs-numeral: clamp(3rem, 2.667rem + 1.481vw, 4rem);
+  --fs-logo: clamp(0.8125rem, 0.7917rem + 0.093vw, 0.875rem);
+
+  /* Layout */
+  --container: 72rem;
+  --measure: 38rem;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+  --radius: 2px;
+  --ease: 150ms ease;
+}
+
+
+/* 2. Base & typography
+   ------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-optical-sizing: auto;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: inherit;
+  font-family: var(--serif);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+}
+
+p {
+  margin: 0 0 1.25em;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+strong {
+  font-weight: 600;
+}
+
+a {
+  color: var(--eggplant);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color var(--ease);
+}
+
+a:hover {
+  color: var(--eggplant-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--eggplant);
+  outline-offset: 3px;
+}
+
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--violet);
+}
+
+.lead {
+  font-family: var(--serif);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+
+/* 3. Layout utilities
+   ------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.bg-panel {
+  background: var(--panel);
+}
+
+.bg-lavender {
+  background: var(--lavender-100);
+}
+
+.bg-deep {
+  background: var(--eggplant-deep);
+  color: var(--on-dark-muted);
+}
+
+.bg-deep h1,
+.bg-deep h2,
+.bg-deep h3 {
+  color: var(--on-dark);
+}
+
+.section-head {
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.section-head > h2 + p {
+  margin-top: 1.5rem;
+}
+
+.grid-2,
+.grid-3 {
+  display: grid;
+  gap: 2.5rem;
+}
+
+/* Keep grid children from being pushed wider than the viewport */
+.grid-2 > *,
+.grid-3 > *,
+.promo > *,
+.about > *,
+.faq > *,
+.hero-split > *,
+.inside > *,
+.fit > * {
+  min-width: 0;
+}
+
+@media (min-width: 48rem) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 60rem) {
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.75rem;
+  }
+}
+
+
+/* 4. Components
+   ------------------------------------------------------------- */
+
+/* Top announcement bar */
+.topbar {
+  display: block;
+  padding: 0.6rem var(--gutter);
+  background: var(--black);
+  color: var(--on-dark);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.topbar:hover {
+  color: var(--on-dark);
+  text-decoration-thickness: 2px;
+}
+
+.topbar:focus-visible {
+  outline-offset: -4px;
+}
+
+.topbar strong {
+  letter-spacing: 0.04em;
+}
+
+/* Header row (sits on the hero's background) */
+.site-header {
+  position: relative;
+  z-index: 1;
+  background: var(--eggplant-deep);
+  /* Hides a sub-pixel seam where the header meets the hero */
+  box-shadow: 0 1px 0 var(--eggplant-deep);
+}
+
+.header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.logo-mark {
+  color: var(--on-dark);
+  font-family: var(--sans);
+  font-size: var(--fs-logo);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.25em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.logo-mark:hover {
+  color: var(--on-dark);
+}
+
+.logo-mark .diamond {
+  color: var(--violet);
+  letter-spacing: 0;
+}
+
+/* Landing page: header on the pale lavender hero */
+.site-header.header-light {
+  background: var(--lavender-100);
+  box-shadow: 0 1px 0 var(--lavender-100);
+}
+
+.header-light .logo-mark,
+.header-light .logo-mark:hover {
+  color: var(--eggplant);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease);
+}
+
+.btn-primary {
+  background: var(--eggplant);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--eggplant-hover);
+  color: var(--white);
+}
+
+.btn-light {
+  background: var(--white);
+  color: var(--eggplant-deep);
+}
+
+.btn-light:hover {
+  background: var(--lavender-100);
+  color: var(--eggplant-deep);
+}
+
+.btn-outline {
+  border-color: var(--on-dark);
+  background: transparent;
+  color: var(--on-dark);
+}
+
+.btn-outline:hover {
+  background: var(--eggplant);
+  color: var(--on-dark);
+}
+
+.btn-sm {
+  padding: 0.7rem 1.1rem;
+  font-size: 0.9375rem;
+}
+
+.btn[disabled] {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 35.99rem) {
+  .btn-row .btn {
+    width: 100%;
+  }
+}
+
+/* Eyebrow: ◆ LABEL */
+.eyebrow {
+  display: block;
+  margin: 0 0 1.5rem;
+  color: var(--eggplant);
+  font-family: var(--sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.bg-deep .eyebrow {
+  color: var(--on-dark);
+}
+
+.bg-deep .eyebrow .diamond {
+  color: var(--violet);
+}
+
+/* Short violet rule under hero headlines */
+.rule-accent {
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin: 2rem 0 1.75rem;
+  background: var(--violet);
+}
+
+/* Guide paper (cover and page images) */
+.paper {
+  box-shadow:
+    0 1px 2px rgba(26, 5, 66, 0.16),
+    0 12px 24px -8px rgba(26, 5, 66, 0.24),
+    0 32px 56px -24px rgba(26, 5, 66, 0.36);
+}
+
+.bg-deep .paper {
+  box-shadow:
+    0 0 0 1px rgba(123, 79, 191, 0.35),
+    0 18px 32px -10px rgba(0, 0, 0, 0.55),
+    0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+
+.tilt {
+  transform: rotate(-2deg);
+}
+
+/* Email form */
+.form-wrap {
+  max-width: 34rem;
+  margin-top: 2.25rem;
+}
+
+.guide-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.bg-deep .guide-form label {
+  color: var(--on-dark);
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 36rem) {
+  .form-row {
+    flex-direction: row;
+  }
+}
+
+.guide-form input[type="email"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1rem;
+}
+
+.bg-deep .guide-form input[type="email"] {
+  border-color: var(--white);
+}
+
+.guide-form .btn {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-error {
+  margin-top: 1rem;
+  padding-left: 0.875rem;
+  border-left: 3px solid var(--violet);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.bg-deep .form-error {
+  color: var(--on-dark);
+}
+
+.bg-deep .form-error a {
+  color: var(--on-dark);
+}
+
+.bg-deep .form-success {
+  color: var(--on-dark);
+}
+
+.form-success {
+  font-family: var(--serif);
+  font-size: var(--fs-lead);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.form-success:focus {
+  outline: none;
+}
+
+.form-success:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 6px;
+}
+
+/* About (shared by both pages) */
+.about {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-photo {
+  width: 45%;
+  max-width: 12rem;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 7%;
+}
+
+.about-text h2 {
+  margin-bottom: 1.5rem;
+}
+
+/* Main page: oval crop */
+.about-photo-right .about-photo {
+  aspect-ratio: 4 / 5;
+  border-radius: 50%;
+  object-position: 50% 15%;
+}
+
+/* Label spans the full row, so the photo lines up with the first paragraph */
+.about-head {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.about-text p {
+  max-width: var(--measure);
+}
+
+@media (min-width: 48rem) {
+  .about {
+    grid-template-columns: 13rem 1fr;
+    row-gap: 1.5rem;
+    column-gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .about-photo {
+    width: 100%;
+    max-width: none;
+  }
+
+  .about-photo-right {
+    /* Text column capped at reading width so the photo sits beside it, not at the far edge */
+    grid-template-columns: minmax(0, var(--measure)) 13rem;
+    justify-content: start;
+    column-gap: 2rem;
+  }
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  font-weight: 500;
+  list-style: none;
+}
+
+/* Footer */
+.site-footer {
+  padding-block: 2.5rem 3rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+
+.wordmark {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legal {
+  margin-top: 1.5rem;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+
+/* 5. Page sections
+   ------------------------------------------------------------- */
+
+/* Heroes (both pages) */
+.hero {
+  padding-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+.hero h1 {
+  max-width: 58rem;
+}
+
+.hero-sub {
+  max-width: 58rem; /* same as .hero h1 */
+  font-size: clamp(1.0625rem, 1rem + 0.278vw, 1.25rem);
+  line-height: 1.6;
+}
+
+/* Main: The situation */
+.situation h2.lead {
+  margin-bottom: 2rem;
+}
+
+.callout {
+  margin-top: 2.25rem;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--eggplant);
+}
+
+/* When a callout sits mid-text, give it the same space below as above */
+.callout:not(:last-child) {
+  margin-bottom: 2.25rem;
+}
+
+/* Main: Conventional playbook */
+.playbook-intro {
+  max-width: 58rem;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+}
+
+.br-desktop {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .br-desktop {
+    display: inline;
+  }
+}
+
+.myths {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--rule);
+}
+
+.myth {
+  display: grid;
+  gap: 1rem;
+  padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.myth > * {
+  min-width: 0;
+}
+
+.myth h3 {
+  color: var(--eggplant);
+  font-size: clamp(1.3rem, 1.2rem + 0.444vw, 1.6rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.myth p {
+  max-width: var(--measure);
+}
+
+@media (min-width: 48rem) {
+  .myth {
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+.closing-lead {
+  max-width: var(--measure);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+/* Main: tighter type for the Playbook and Operating System sections */
+.compact {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.compact .playbook-intro {
+  font-size: 1.0625rem;
+}
+
+.compact .myth {
+  padding-block: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.compact .myth h3 {
+  font-size: clamp(1.125rem, 1.08rem + 0.2vw, 1.3rem);
+}
+
+.compact .step {
+  padding-block: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.compact .step-num {
+  font-size: clamp(2.25rem, 2rem + 1vw, 3rem);
+}
+
+.compact .step h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+}
+
+@media (min-width: 48rem) {
+  .compact .step {
+    grid-template-columns: 5rem 1fr;
+  }
+}
+
+/* Main: Operating system steps */
+.steps {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  gap: 0.75rem;
+  padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+
+.step-num {
+  color: var(--eggplant);
+  font-family: var(--serif);
+  font-size: var(--fs-numeral);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.step-body {
+  max-width: 42rem;
+}
+
+.step .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.step h3 {
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  .step {
+    grid-template-columns: 7rem 1fr;
+    gap: 2rem;
+  }
+}
+
+.phase-box {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--panel);
+}
+
+.phase-box p {
+  max-width: 48rem;
+}
+
+.phases {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.phase {
+  padding: 0.9rem 1rem;
+  border-top: 3px solid var(--eggplant);
+  background: var(--lavender-100);
+  line-height: 1.3;
+}
+
+.phase:nth-child(2) {
+  background: var(--lavender-200);
+}
+
+.phase strong {
+  display: block;
+  color: var(--eggplant);
+  font-size: 0.9375rem;
+}
+
+.phase span {
+  color: var(--ink-muted);
+  font-size: var(--fs-small);
+}
+
+/* Implementation takes the most time; diagnosis and hand-off are shorter */
+@media (min-width: 40rem) {
+  .phases {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+}
+
+/* Main: Start with the guide */
+.promo {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+.promo-cover {
+  width: 60%;
+  margin-inline: auto;
+}
+
+
+.promo-text p {
+  max-width: var(--measure);
+}
+
+.promo-text .btn {
+  margin-top: 2rem;
+}
+
+@media (min-width: 48rem) {
+  .promo {
+    /* Text capped at reading width so the cover sits right beside it */
+    grid-template-columns: minmax(0, var(--measure)) minmax(0, 19rem);
+    justify-content: start;
+    gap: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .promo-cover {
+    width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* Main: FAQ */
+.faq {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+@media (min-width: 48rem) {
+  .faq {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.faq-item {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border-left: 3px solid var(--eggplant);
+  background: var(--white);
+}
+
+.faq-item h3 {
+  margin-bottom: 0.5rem;
+  color: var(--eggplant);
+  font-size: 1.125rem;
+}
+
+.faq-item p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Final CTA bands */
+.cta-band {
+  text-align: center;
+}
+
+.cta-band h2 {
+  margin-bottom: 1.5rem;
+}
+
+.cta-band p {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.cta-band .btn-row {
+  justify-content: center;
+}
+
+.cta-narrow {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.cta-band .form-wrap {
+  margin-inline: auto;
+  text-align: left;
+}
+
+/* Landing: hero */
+.hero-guide {
+  padding-top: clamp(4rem, 9vw, 7rem);
+}
+
+.hero-split {
+  display: grid;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.h1-sub {
+  display: block;
+  margin-top: 0.85rem;
+  color: var(--ink-muted);
+  font-size: clamp(1.4rem, 1.2rem + 0.889vw, 2.1rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.hero-cover {
+  width: 70%;
+  max-width: 24rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 60rem) {
+  .hero-split {
+    grid-template-columns: 55fr 45fr;
+    gap: 4.5rem;
+  }
+
+  .hero-cover {
+    width: 100%;
+    max-width: 25rem;
+  }
+}
+
+.form-anchor {
+  scroll-margin-top: 2rem;
+}
+
+/* Landing: What's inside */
+.inside {
+  display: grid;
+  gap: 3rem;
+}
+
+.fan {
+  position: relative;
+  width: min(100%, 22rem);
+  aspect-ratio: 10 / 9;
+  margin-inline: auto;
+}
+
+/* Four pages fanned left to right; the last one (the diagnostic) sits in front */
+.fan img {
+  position: absolute;
+  width: 52%;
+}
+
+.fan img:nth-child(1) {
+  top: 12%;
+  left: 2%;
+  transform: rotate(-7deg);
+}
+
+.fan img:nth-child(2) {
+  top: 5%;
+  left: 15%;
+  transform: rotate(-3deg);
+}
+
+.fan img:nth-child(3) {
+  top: 8%;
+  left: 28%;
+  transform: rotate(1deg);
+}
+
+.fan img:nth-child(4) {
+  top: 14%;
+  left: 42%;
+  transform: rotate(5deg);
+}
+
+.inside-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+  counter-reset: inside;
+}
+
+/* Numbered rows: small Lora numerals in a narrow left column */
+.inside-list li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  counter-increment: inside;
+}
+
+.inside-list li::before {
+  grid-row: 1 / span 2;
+  color: var(--eggplant);
+  font-family: var(--serif);
+  padding-top: 0.2rem;
+  font-size: 1.0625rem;
+  line-height: 1;
+  content: counter(inside, decimal-leading-zero);
+}
+
+.inside-list li > * {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.inside-list h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 60rem) {
+  .inside {
+    grid-template-columns: 5fr 6fr;
+    gap: 4.5rem;
+    align-items: start;
+  }
+
+  .fan {
+    width: 100%;
+    max-width: 30rem;
+  }
+}
+
+/* Landing: For you / not for you */
+.fit {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+  .fit {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Flat cards: tinted panel, hairline edge, colored top bar */
+.fit-col {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--eggplant);
+  background: var(--panel);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.fit-no {
+  border-top-color: var(--ink-muted);
+}
+
+.fit h3 {
+  font-size: 1.125rem;
+  line-height: 1.3;
+}
+
+.fit-yes h3 {
+  color: var(--eggplant);
+}
+
+.checklist {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.5rem;
+  padding-block: 0.65rem;
+  border-top: 1px solid var(--rule);
+}
+
+.check {
+  color: var(--eggplant);
+  font-weight: 600;
+}
+
+.fit-no .check {
+  color: var(--ink-muted);
+}
