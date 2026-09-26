@@ -28,6 +28,16 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- TODO (analytics): add the analytics snippet here when one is chosen. -->
+
+  <!-- MailerLite Universal -->
+  <script>
+      (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+      .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+      n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+      (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+      ml('account', '2643875');
+  </script>
+  <!-- End MailerLite Universal -->
 </head>
 <body>
 
@@ -50,11 +60,13 @@
           <p class="hero-sub">The four-step method a former Fortune 100 COO uses to deliver initiatives like yours for insurance and financial services companies, plus the 10-question diagnostic that shows where yours is at risk before it costs you millions, a year of work, and your credibility.</p>
 
           <div class="form-wrap">
-            <!-- TODO (MailerLite): set action="" to the MailerLite form endpoint as the no-JavaScript fallback. -->
-            <form class="guide-form form-anchor" id="guide-form-top" data-source="top" method="post" action="">
-              <label for="email-top">Work email</label>
+            <!-- action is the no-JavaScript fallback; with JavaScript, the script below submits it -->
+            <form class="guide-form form-anchor" id="guide-form-top" data-source="top" method="post" action="https://assets.mailerlite.com/jsonp/2643875/forms/198941334932817383/subscribe">
+              <input type="hidden" name="ml-submit" value="1">
+              <input type="hidden" name="anticsrf" value="true">
+              <label class="visually-hidden" for="email-top">Work email</label>
               <div class="form-row">
-                <input type="email" id="email-top" name="email" autocomplete="email" required>
+                <input type="email" id="email-top" name="fields[email]" autocomplete="email" placeholder="Work email" required>
                 <button class="btn btn-primary" type="submit">Send me the Guide and Diagnostic</button>
               </div>
               <div class="hp" aria-hidden="true">
@@ -174,11 +186,13 @@
           <h2 id="cta-heading">Get the Free Guide</h2>
           <p>Sixteen pages on where high-stakes initiatives break down and the four steps that can keep yours on track. The 10-question diagnostic tells you exactly where you stand in just a couple of minutes.</p>
           <div class="form-wrap">
-            <!-- TODO (MailerLite): set action="" to the MailerLite form endpoint as the no-JavaScript fallback. -->
-            <form class="guide-form" id="guide-form-bottom" data-source="bottom" method="post" action="">
-              <label for="email-bottom">Work email</label>
+            <!-- action is the no-JavaScript fallback; with JavaScript, the script below submits it -->
+            <form class="guide-form" id="guide-form-bottom" data-source="bottom" method="post" action="https://assets.mailerlite.com/jsonp/2643875/forms/198941334932817383/subscribe">
+              <input type="hidden" name="ml-submit" value="1">
+              <input type="hidden" name="anticsrf" value="true">
+              <label class="visually-hidden" for="email-bottom">Work email</label>
               <div class="form-row">
-                <input type="email" id="email-bottom" name="email" autocomplete="email" required>
+                <input type="email" id="email-bottom" name="fields[email]" autocomplete="email" placeholder="Work email" required>
                 <button class="btn btn-light" type="submit">Send me the Guide and Diagnostic</button>
               </div>
               <div class="hp" aria-hidden="true">
@@ -213,15 +227,14 @@
 
     /* ---------------------------------------------------------------
        MailerLite configuration
-       TODO (MailerLite): once the MailerLite form and its delivery email
-       are set up, fill in the values below and set MAILERLITE_CONFIGURED
-       to true. These are the public IDs from MailerLite's embedded-form
-       code — never put an API key in this file.
+       Public IDs from MailerLite's embedded-form code (form "Get the Free
+       Guide"). Never put an API key in this file.
+       Set MAILERLITE_CONFIGURED to false to switch sending off: localhost
+       then simulates success and live hosts show the error message.
        --------------------------------------------------------------- */
-    var MAILERLITE_CONFIGURED = false;
-    var MAILERLITE_ACCOUNT_ID = 'TODO';
-    var MAILERLITE_FORM_ID = 'TODO';
-    // Confirm this URL against MailerLite's embed code before going live.
+    var MAILERLITE_CONFIGURED = true;
+    var MAILERLITE_ACCOUNT_ID = '2643875';
+    var MAILERLITE_FORM_ID = '198941334932817383';
     var MAILERLITE_ENDPOINT = 'https://assets.mailerlite.com/jsonp/' + MAILERLITE_ACCOUNT_ID + '/forms/' + MAILERLITE_FORM_ID + '/subscribe';
 
     var SENDING_TEXT = 'Sending…';
@@ -241,7 +254,7 @@
         throw new Error('MailerLite is not configured.');
       }
 
-      // TODO (MailerLite): confirm field names against MailerLite's embed code.
+      // Field names match MailerLite's embed code.
       var body = new FormData();
       body.append('fields[email]', email);
       body.append('ml-submit', '1');
