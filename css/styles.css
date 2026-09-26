@@ -497,6 +497,12 @@ a:hover {
   font-size: 1rem;
 }
 
+/* Lightest gray that still meets AA contrast on white */
+.guide-form input[type="email"]::placeholder {
+  color: #767676;
+  opacity: 1;
+}
+
 .bg-deep .guide-form input[type="email"] {
   border-color: var(--white);
 }
