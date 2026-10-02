@@ -700,6 +700,78 @@ a:hover {
   margin-bottom: 2rem;
 }
 
+/* Main: narrative left (~60%), symptom box right (~40%) from 900px up */
+.situation-cols {
+  display: grid;
+  gap: 3rem;
+}
+
+.situation-cols > * {
+  min-width: 0;
+}
+
+@media (min-width: 56.25rem) {
+  .situation-cols {
+    grid-template-columns: 3fr 2fr;
+    align-items: start;
+  }
+
+  /* Narrative fills its 60% column so the gap to the box stays ~3rem */
+  .situation-cols > .measure {
+    max-width: none;
+  }
+}
+
+.symptoms {
+  padding: 2rem;
+  border-top: 2px solid var(--eggplant);
+  background: var(--panel);
+}
+
+.symptoms h3 {
+  margin-bottom: 0.75rem;
+}
+
+.symptom-list {
+  margin: 1rem 0 0;
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  list-style: none;
+}
+
+.symptom-list li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  padding-block: 0.85rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* Empty checkbox drawn in CSS: decorative, square-cornered like the rest of the site */
+.symptom-list li::before {
+  content: "";
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.42em;
+  border: 1.5px solid var(--eggplant);
+  background: var(--white);
+}
+
+.symptoms .symptom-close {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.symptom-link {
+  display: inline-block;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.symptom-link:hover,
+.symptom-link:focus-visible {
+  text-decoration: underline;
+}
+
 .callout {
   margin-top: 2.25rem;
   padding-left: 1.25rem;
@@ -857,40 +929,75 @@ a:hover {
   max-width: 48rem;
 }
 
-.phases {
+/* Timeline: stacked phases on narrow screens, three equal columns from 900px */
+.timeline {
   display: grid;
-  gap: 4px;
-  margin: 0 0 1.75rem;
+  gap: 2rem;
+  margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-.phase {
-  padding: 0.9rem 1rem;
-  border-top: 3px solid var(--eggplant);
+.tl-phase {
+  min-width: 0;
+}
+
+.tl-bar {
+  padding: 0.7rem 1rem;
   background: var(--lavender-100);
+  color: var(--eggplant);
+  font-size: var(--fs-small);
+  font-weight: 600;
   line-height: 1.3;
 }
 
-.phase:nth-child(2) {
+.tl-phase:nth-child(2) .tl-bar {
   background: var(--lavender-200);
 }
 
-.phase strong {
-  display: block;
-  color: var(--eggplant);
-  font-size: 0.9375rem;
+.tl-body {
+  padding-top: 1.25rem;
 }
 
-.phase span {
+.tl-body h3 {
+  margin-bottom: 0.25rem;
+}
+
+.tl-steps {
+  margin-bottom: 0.75rem;
   color: var(--ink-muted);
   font-size: var(--fs-small);
 }
 
-/* Implementation takes the most time; diagnosis and hand-off are shorter */
-@media (min-width: 40rem) {
-  .phases {
-    grid-template-columns: 1fr 2fr 1fr;
+.tl-get {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tl-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tl-list li {
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 56.25rem) {
+  .timeline {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  /* 2px white gaps between the bar segments */
+  .tl-phase + .tl-phase .tl-bar {
+    border-left: 2px solid var(--white);
+  }
+
+  .tl-body {
+    padding-right: 1.75rem;
   }
 }
 
