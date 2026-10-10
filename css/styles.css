@@ -323,6 +323,11 @@ a:hover {
   letter-spacing: 0;
 }
 
+/* Pages with no dark hero below the header (process.html): close the dark band */
+.site-header--solo .header-row {
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
 /* Landing page: header on the pale lavender hero */
 .site-header.header-light {
   background: var(--lavender-100);
@@ -728,6 +733,11 @@ a:hover {
   background: var(--panel);
 }
 
+/* On a grey section (index2.html) the box turns white so it still reads as a box */
+.bg-panel .symptoms {
+  background: var(--white);
+}
+
 .symptoms h3 {
   margin-bottom: 0.75rem;
 }
@@ -959,8 +969,27 @@ a:hover {
   padding-top: 1.25rem;
 }
 
+.tl-body h2,
 .tl-body h3 {
   margin-bottom: 0.25rem;
+}
+
+/* process.html: phase titles are h2 there (the page h1 is the eyebrow) but look like h3 */
+.tl-body h2 {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  letter-spacing: normal;
+}
+
+/* Homepage: no step-names line between phase title and description, so add a little air
+   (process.html uses h2 titles followed by .tl-steps, so this doesn't touch it) */
+.tl-body h3 + p {
+  margin-top: 0.6rem;
+}
+
+/* Homepage: link to process.html below the shortened timeline */
+.os-more {
+  margin-top: 2rem;
 }
 
 .tl-steps {
@@ -998,6 +1027,129 @@ a:hover {
 
   .tl-body {
     padding-right: 1.75rem;
+  }
+}
+
+/* Main: What I do — the gaps, one hairline row each (matches the FAQ rows).
+   Stacked on mobile; from 768px the transition and skill sit left, the sentence right. */
+.gaps {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  list-style: none;
+}
+
+.gap-row {
+  display: grid;
+  padding-block: 1.75rem;
+  border-top: 1px solid var(--rule);
+}
+
+.gap-row > * {
+  min-width: 0;
+}
+
+/* Sequence cue: a 1px eggplant line down a narrow left gutter, with a ◆ marker
+   level with each stage pair. The line starts at the first marker and stops at
+   the last, so it never reaches the callout. --gap-mark is the vertical centre
+   of the stage pair's first line (row padding + half of 1.2rem × 1.3). */
+.gap-row {
+  --gap-mark: calc(1.75rem + 0.78rem);
+  position: relative;
+  padding-left: 2rem;
+}
+
+.gap-row::after {
+  content: "";
+  position: absolute;
+  top: -1px; /* bridge the row's top rule */
+  bottom: 0;
+  left: 0.5rem;
+  border-left: 1px solid var(--eggplant);
+}
+
+.gap-row:first-child::after {
+  top: var(--gap-mark);
+}
+
+.gap-row:last-child::after {
+  bottom: calc(100% - var(--gap-mark));
+}
+
+.gap-marker {
+  position: absolute;
+  z-index: 1;
+  top: var(--gap-mark);
+  left: 0;
+  width: 1rem;
+  background: var(--white);
+  color: var(--eggplant);
+  font-size: 0.75rem;
+  line-height: 1;
+  text-align: center;
+  transform: translateY(-50%);
+}
+
+.gap-transition {
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.gap-arrow {
+  color: var(--eggplant);
+}
+
+/* One step up from the eyebrow: small size, semibold; same caps, tracking and color */
+.gap-skill {
+  margin: 0.4rem 0 0;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.gap-text {
+  margin: 0.5rem 0 0;
+}
+
+/* Closing line uses .callout; the section runs full container width (matching
+   the Operating System section), so the callout keeps a reading-width cap */
+.gaps-note {
+  max-width: var(--measure);
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 48rem) {
+  /* Left column sized to the longest entry across ALL rows (rows share the
+     list's columns via subgrid); descriptions take the rest */
+  .gaps {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--gutter);
+  }
+
+  .gap-row {
+    grid-column: 1 / -1;
+    grid-template-columns: 16.5rem minmax(0, 1fr); /* fallback without subgrid */
+    grid-template-rows: auto 1fr; /* extra height from a long description goes below the skill label */
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+
+  @supports (grid-template-columns: subgrid) {
+    .gap-row {
+      grid-template-columns: subgrid;
+    }
+  }
+
+  .gap-transition,
+  .gap-skill {
+    grid-column: 1;
+  }
+
+  .gap-text {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin-top: 0;
   }
 }
 
