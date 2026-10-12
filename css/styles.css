@@ -27,6 +27,8 @@
   --on-dark: #ffffff;
   --on-dark-muted: #d5d1dc;
   --white: #ffffff;
+  --status-green: #7fd1a8; /* hero headline only */
+  --status-red: #ff7b7b;   /* hero headline only */
 
   /* Type families */
   --serif: Lora, Georgia, "Times New Roman", serif;
@@ -677,6 +679,17 @@ a:hover {
 
 .hero h1 {
   max-width: 58rem;
+}
+
+/* Hero headline status words: colour and italics only */
+.hero h1 .status-green {
+  color: var(--status-green);
+  font-style: italic;
+}
+
+.hero h1 .status-red {
+  color: var(--status-red);
+  font-style: italic;
 }
 
 .hero-sub {
