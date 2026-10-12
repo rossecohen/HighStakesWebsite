@@ -185,8 +185,42 @@
       </div>
     </section>
 
+    <!-- 5. In their words: testimonial carousel. Without JS both quotes show stacked;
+         the script at the end of the page turns it into a one-at-a-time carousel. -->
+    <section class="section bg-panel" aria-labelledby="words-heading">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow"><span class="diamond" aria-hidden="true">◆</span> Testimonials</p>
+          <h2 id="words-heading">In Their Words</h2>
+        </div>
+        <div class="tcar" aria-roledescription="carousel" aria-labelledby="words-heading">
+          <div class="tcar-viewport" aria-live="polite">
+            <figure class="tcar-slide" role="group" aria-roledescription="slide" aria-label="1 of 2">
+              <blockquote class="tcar-quote">
+                <p>Most tools the home office builds for the field get ignored. Ross built one agents actually used. He spent time with agents and field managers before anything was built and kept iterating until it fit the way they sell. By the time we rolled it out broadly, the field was excited about it and new agents were closing noticeably more business with it.</p>
+              </blockquote>
+              <figcaption class="eyebrow tcar-cite">SVP of Distribution Operations</figcaption>
+            </figure>
+            <figure class="tcar-slide" role="group" aria-roledescription="slide" aria-label="2 of 2">
+              <blockquote class="tcar-quote">
+                <p>Ross is unusually good at understanding what each group around the table needs, including the ones who aren’t saying it. He balanced competing stakeholder needs and brought disagreements into the open early, while they were still easy to resolve. The decisions he drove ultimately held up in market.</p>
+              </blockquote>
+              <figcaption class="eyebrow tcar-cite">COO of Distribution</figcaption>
+            </figure>
+          </div>
+          <button class="tcar-btn tcar-prev" type="button" aria-label="Previous testimonial"><span aria-hidden="true">←</span></button>
+          <button class="tcar-btn tcar-next" type="button" aria-label="Next testimonial"><span aria-hidden="true">→</span></button>
+          <div class="tcar-dots">
+            <button class="tcar-dot" type="button" aria-label="Show testimonial 1" aria-current="true"></button>
+            <button class="tcar-dot" type="button" aria-label="Show testimonial 2" aria-current="false"></button>
+            <span class="visually-hidden tcar-status">Testimonial 1 of 2</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 6. Start with the guide -->
-    <section class="section bg-panel" aria-labelledby="guide-heading">
+    <section class="section" aria-labelledby="guide-heading">
       <div class="container promo">
         <div class="promo-text">
           <h2 class="eyebrow" id="guide-heading"><span class="diamond" aria-hidden="true">◆</span> Free 16-Page Guide and Diagnostic</h2>
@@ -203,7 +237,7 @@
     </section>
 
     <!-- 7. About Ross -->
-    <section class="section" aria-labelledby="about-heading">
+    <section class="section bg-panel" aria-labelledby="about-heading">
       <div class="container about about-photo-right">
         <h2 class="eyebrow about-head" id="about-heading"><span class="diamond" aria-hidden="true">◆</span> About Ross</h2>
         <div class="about-text">
@@ -220,7 +254,7 @@
     </section>
 
     <!-- 8. Why not handle it another way? -->
-    <section class="section bg-panel" aria-labelledby="faq-heading">
+    <section class="section" aria-labelledby="faq-heading">
       <div class="container">
         <div>
           <h2 class="eyebrow" id="faq-heading"><span class="diamond" aria-hidden="true">◆</span> Why not handle it another way?</h2>
@@ -267,6 +301,89 @@
       <p class="legal">© 2026 Cohen Advisory LLC. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+  /* Testimonial carousel: one quote at a time, arrows, dots, keyboard, swipe.
+     No auto-advance. Without this script both quotes simply show stacked. */
+  (function () {
+    var root = document.querySelector('.tcar');
+    if (!root) return;
+    var view = root.querySelector('.tcar-viewport');
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.tcar-slide'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('.tcar-dot'));
+    var status = root.querySelector('.tcar-status');
+    var current = 0;
+
+    function show(n) {
+      current = (n + slides.length) % slides.length; // wraps both ways
+      slides.forEach(function (slide, i) {
+        var on = i === current;
+        slide.classList.toggle('is-active', on);
+        if (on) {
+          slide.removeAttribute('aria-hidden');
+          slide.inert = false;
+        } else {
+          slide.setAttribute('aria-hidden', 'true');
+          slide.inert = true;
+        }
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute('aria-current', i === current ? 'true' : 'false');
+      });
+      status.textContent = 'Testimonial ' + (current + 1) + ' of ' + slides.length;
+    }
+
+    // Fixed height = the tallest slide at the current width, so the page never jumps
+    function size() {
+      var tallest = 0;
+      slides.forEach(function (slide) {
+        tallest = Math.max(tallest, slide.offsetHeight);
+      });
+      view.style.height = tallest + 'px';
+    }
+
+    root.classList.add('is-ready');
+    show(0);
+    size();
+    // Re-measure whenever a slide's size changes (width changes, rotation, zoom, late fonts).
+    // Watching the slides, not the viewport, avoids a loop: setting the height doesn't resize them.
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(size);
+      slides.forEach(function (slide) { ro.observe(slide); });
+    } else {
+      window.addEventListener('resize', size);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+
+    root.querySelector('.tcar-prev').addEventListener('click', function () { show(current - 1); });
+    root.querySelector('.tcar-next').addEventListener('click', function () { show(current + 1); });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { show(i); });
+    });
+
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+    });
+
+    // Swipe: horizontal touch/pen drags only; mostly-vertical drags are left to page scrolling
+    var startX = null, startY = null;
+    view.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse') return;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+    view.addEventListener('pointerup', function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      startX = startY = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        show(dx < 0 ? current + 1 : current - 1);
+      }
+    });
+    view.addEventListener('pointercancel', function () { startX = startY = null; });
+  })();
+  </script>
 
 </body>
 </html>
