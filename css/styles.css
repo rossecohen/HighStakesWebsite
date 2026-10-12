@@ -1201,6 +1201,169 @@ a:hover {
   border-top: 1px solid var(--rule);
 }
 
+/* Main: In their words — testimonial carousel. Everything left-aligned.
+   Default (no JS): quotes stacked, controls hidden. .is-ready (added by the
+   script): one quote at a time with a crossfade, and one row of controls
+   below it (prev, dots, next) aligned with the quote text. */
+.tcar {
+  --tcar-indent: calc(1.25rem + 3px); /* .callout rule (3px) + its padding: where quote text starts */
+  max-width: var(--measure);          /* same reading width as What I Do's callout */
+}
+
+/* Desktop: about two-thirds of the container (48rem at full width), never
+   narrower than the reading width it has on tablet */
+@media (min-width: 60rem) {
+  .tcar {
+    max-width: max(var(--measure), 66.667%);
+  }
+}
+
+.tcar-slide {
+  margin: 0;
+}
+
+.tcar-slide + .tcar-slide {
+  margin-top: 2.5rem;
+}
+
+/* Left rule matches .callout: 3px eggplant, 1.25rem padding */
+.tcar-quote {
+  margin: 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--eggplant);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: var(--fs-h3); /* one step up from body */
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.tcar-quote p {
+  margin: 0;
+}
+
+/* Attribution indented to the quote text, not the rule */
+.tcar .tcar-cite {
+  margin: 1.25rem 0 0 var(--tcar-indent);
+}
+
+.tcar-btn,
+.tcar-dots {
+  display: none;
+}
+
+/* Carousel mode: slide area on top, one control row below it */
+.tcar.is-ready {
+  display: grid;
+  grid-template-areas:
+    "view view view"
+    "prev dots next";
+  /* last column takes the remaining width so the slide area (which spans all
+     three) is full reading width; its slides are absolute and add no width */
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  row-gap: 1.25rem;
+}
+
+.tcar.is-ready .tcar-viewport {
+  position: relative;
+  grid-area: view;
+  touch-action: pan-y; /* vertical scrolling stays with the page; horizontal drags are swipes */
+}
+
+.tcar.is-ready .tcar-slide {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  margin-top: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 280ms ease, visibility 0s linear 280ms;
+}
+
+.tcar.is-ready .tcar-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 280ms ease, visibility 0s;
+}
+
+/* Plain arrows: no box, 44×44 invisible tap target, glyph pushed to the outer edge */
+.tcar.is-ready .tcar-btn {
+  display: inline-flex;
+  align-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--eggplant);
+  font-family: var(--sans);
+  font-size: 1.25rem;
+  line-height: 1;
+  text-align: left; /* override the browser's centered button text */
+  cursor: pointer;
+  transition: opacity var(--ease);
+}
+
+.tcar.is-ready .tcar-btn:hover {
+  opacity: 0.65;
+}
+
+.tcar.is-ready .tcar-prev {
+  grid-area: prev;
+  justify-content: flex-start;
+  margin-left: var(--tcar-indent); /* arrow starts at the quote text's left edge */
+}
+
+.tcar.is-ready .tcar-next {
+  grid-area: next;
+  justify-self: start;
+  justify-content: flex-end;
+}
+
+.tcar.is-ready .tcar-dots {
+  display: flex;
+  grid-area: dots;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Dots are small brand diamonds; the button itself is a 24px hit target */
+.tcar-dot {
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tcar-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--eggplant);
+  background: transparent;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.tcar-dot[aria-current="true"]::before {
+  background: var(--eggplant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tcar.is-ready .tcar-slide,
+  .tcar.is-ready .tcar-slide.is-active {
+    transition: none;
+  }
+}
+
 /* Main: Start with the guide */
 .promo {
   display: grid;
