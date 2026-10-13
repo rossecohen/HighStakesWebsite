@@ -266,8 +266,8 @@ a:hover {
 .topbar {
   display: block;
   padding: 0.6rem var(--gutter);
-  background: var(--black);
-  color: var(--on-dark);
+  background: var(--lavender-200);
+  color: var(--black);
   font-size: 0.8125rem;
   line-height: 1.35;
   text-align: center;
@@ -275,11 +275,13 @@ a:hover {
 }
 
 .topbar:hover {
-  color: var(--on-dark);
+  color: var(--black);
   text-decoration-thickness: 2px;
 }
 
-.topbar:focus-visible {
+/* Light banner: eggplant focus ring (beats the violet one the dark header sets) */
+.site-header .topbar:focus-visible {
+  outline-color: var(--eggplant);
   outline-offset: -4px;
 }
 
@@ -779,7 +781,8 @@ a:hover {
   background: var(--white);
 }
 
-.symptoms .symptom-close {
+/* Closing line after the symptom list (in the Who It’s For section, and the old aside in drafts) */
+.symptom-close {
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
 }
@@ -871,6 +874,12 @@ a:hover {
 
 .compact .playbook-intro {
   font-size: 1.0625rem;
+}
+
+/* Intro line under a section headline: standard body size even in compact sections */
+.compact .section-head > h2 + p {
+  font-size: var(--fs-body);
+  line-height: 1.65;
 }
 
 .compact .myth {
@@ -1000,10 +1009,6 @@ a:hover {
   margin-top: 0.6rem;
 }
 
-/* Homepage: link to process.html below the shortened timeline */
-.os-more {
-  margin-top: 2rem;
-}
 
 .tl-steps {
   margin-bottom: 0.75rem;
@@ -1101,6 +1106,11 @@ a:hover {
   line-height: 1;
   text-align: center;
   transform: translateY(-50%);
+}
+
+/* On a grey section the marker's backing matches it, so the line still reads as passing behind */
+.bg-panel .gap-marker {
+  background: var(--panel);
 }
 
 .gap-transition {
