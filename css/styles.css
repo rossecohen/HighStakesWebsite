@@ -46,7 +46,7 @@
   --fs-logo: clamp(0.8125rem, 0.7917rem + 0.093vw, 0.875rem);
 
   /* Layout */
-  --container: 72rem;
+  --container: 58rem; /* full content width; --measure (38rem) is the reading width */
   --measure: 38rem;
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --section-y: clamp(4rem, 9vw, 7.5rem);
@@ -154,6 +154,11 @@ a:hover {
   letter-spacing: -0.005em;
 }
 
+/* Lead headlines are prose: reading width */
+h2.lead {
+  max-width: var(--measure);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -223,6 +228,7 @@ a:hover {
 }
 
 .section-head > h2 + p {
+  max-width: var(--measure); /* intro line under a headline: reading width */
   margin-top: 1.5rem;
 }
 
@@ -1123,13 +1129,8 @@ a:hover {
   color: var(--eggplant);
 }
 
-/* One step up from the eyebrow: small size, semibold; same caps, tracking and color */
-.gap-skill {
-  margin: 0.4rem 0 0;
-  font-size: var(--fs-small);
-  font-weight: 600;
-}
-
+/* "What breaks" / "What I do" paragraphs: the base paragraph spacing (1.25em between,
+   none after the last) is the same as the Before / What I did pair in the Results cards */
 .gap-text {
   margin: 0.5rem 0 0;
 }
@@ -1152,8 +1153,7 @@ a:hover {
 
   .gap-row {
     grid-column: 1 / -1;
-    grid-template-columns: 16.5rem minmax(0, 1fr); /* fallback without subgrid */
-    grid-template-rows: auto 1fr; /* extra height from a long description goes below the skill label */
+    grid-template-columns: 13rem minmax(0, 1fr); /* fallback without subgrid */
     column-gap: var(--gutter);
     align-items: start;
   }
@@ -1164,14 +1164,12 @@ a:hover {
     }
   }
 
-  .gap-transition,
-  .gap-skill {
+  .gap-transition {
     grid-column: 1;
   }
 
   .gap-text {
     grid-column: 2;
-    grid-row: 1 / span 2;
     margin-top: 0;
   }
 }
@@ -1228,17 +1226,9 @@ a:hover {
    Default (no JS): quotes stacked, controls hidden. .is-ready (added by the
    script): one quote at a time with a crossfade, and one row of controls
    below it (prev, dots, next) aligned with the quote text. */
+/* Spans the full 58rem content width */
 .tcar {
   --tcar-indent: calc(1.25rem + 3px); /* .callout rule (3px) + its padding: where quote text starts */
-  max-width: var(--measure);          /* same reading width as What I Do's callout */
-}
-
-/* Desktop: about two-thirds of the container (48rem at full width), never
-   narrower than the reading width it has on tablet */
-@media (min-width: 60rem) {
-  .tcar {
-    max-width: max(var(--measure), 66.667%);
-  }
 }
 
 .tcar-slide {
@@ -1410,8 +1400,8 @@ a:hover {
 
 @media (min-width: 48rem) {
   .promo {
-    /* Text capped at reading width so the cover sits right beside it */
-    grid-template-columns: minmax(0, var(--measure)) minmax(0, 19rem);
+    /* Text at reading width (38rem) + gap (up to 3.5rem) + cover (16rem) fits the 58rem container */
+    grid-template-columns: minmax(0, var(--measure)) minmax(0, 16rem);
     justify-content: start;
     gap: clamp(2.5rem, 4vw, 3.5rem);
   }
@@ -1514,14 +1504,17 @@ a:hover {
 }
 
 @media (min-width: 60rem) {
+  /* Text at reading width; the cover takes what's left of the 58rem container
+     (about 16.5rem), matching the homepage guide promo */
   .hero-split {
-    grid-template-columns: 55fr 45fr;
-    gap: 4.5rem;
+    grid-template-columns: minmax(0, var(--measure)) minmax(0, 1fr);
+    justify-content: start;
+    gap: 3.5rem;
   }
 
   .hero-cover {
     width: 100%;
-    max-width: 25rem;
+    max-width: none;
   }
 }
 
